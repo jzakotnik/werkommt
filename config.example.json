@@ -1,0 +1,29 @@
+{
+  "club": {
+    "name": "TT-Verein Musterstadt",
+    "subtitle": "Jugendtraining Absagen"
+  },
+  "trainers": [
+    { "id": "mueller", "name": "Max Müller", "email": "max.mueller@example.com" },
+    { "id": "schmidt", "name": "Lisa Schmidt", "email": "lisa.schmidt@example.com" },
+    { "id": "weber", "name": "Tom Weber", "email": "tom.weber@example.com" }
+  ],
+  "training": {
+    "sessions": [
+      { "day": 3, "label": "Mittwoch", "time": "18:00", "resetDay": 3, "resetTime": "22:00" },
+      { "day": 5, "label": "Freitag",  "time": "18:00", "resetDay": 5, "resetTime": "22:00" }
+    ]
+  },
+  "smtp": {
+    "host": "smtp.example.com",
+    "port": 587,
+    "secure": false,
+    "user": "absagen@tt-verein.de",
+    "password": "IHR_PASSWORT_HIER",
+    "from": "Absagen TT-Verein <absagen@tt-verein.de>"
+  },
+  "app": {
+    "port": 3000,
+    "baseUrl": "http://localhost:3000"
+  }
+}

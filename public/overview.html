@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Übersicht Absagen – TT-Verein</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23f46b1b'/><text y='.9em' font-size='80' x='12'>🏓</text></svg>">
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-top">
+      <div class="ball-icon">🏓</div>
+      <div class="club-name" id="clubName">TT-<span>Verein</span></div>
+    </div>
+    <div class="club-subtitle" id="clubSubtitle">Jugendtraining · Absagen</div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="nav-tabs">
+    <a  class="nav-tab" href="index.html">✏️ Absage eintragen</a>
+    <span class="nav-tab active">📋 Übersicht</span>
+  </nav>
+
+  <!-- Next Training Banner -->
+  <div class="training-banner">
+    <div class="icon">📅</div>
+    <div>
+      <div class="label">Absagen für</div>
+      <div class="date" id="nextTrainingDate">Lädt…</div>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-value" id="statTotal">–</div>
+      <div class="stat-label">Absagen gesamt</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statTrainers">–</div>
+      <div class="stat-label">Trainer betroffen</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="statLast">–</div>
+      <div class="stat-label">Letzte Absage</div>
+    </div>
+  </div>
+
+  <!-- Overview Header -->
+  <div class="overview-header">
+    <div class="overview-title">Absagen nach Trainer</div>
+    <div class="refresh-indicator">
+      <div class="refresh-dot"></div>
+      <span>Aktualisiert alle 30 Sek.</span>
+    </div>
+  </div>
+
+  <!-- Trainer Sections -->
+  <div id="trainerSections">
+    <!-- populated by JS -->
+  </div>
+
+  <!-- Reset Info -->
+  <div class="reset-info" id="resetInfo">
+    <span>🔄</span>
+    <span id="resetText">Lädt…</span>
+    <button class="btn-danger" id="btnManualReset" onclick="manualReset()">Reset</button>
+  </div>
+
+</div><!-- .page -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+let trainers = [];
+let refreshTimer = null;
+
+async function init() {
+  try {
+    const res = await fetch('/api/config');
+    const cfg = await res.json();
+
+    document.getElementById('clubName').innerHTML =
+      cfg.club.name.replace(/\s+(\S+)$/, ' <span>$1</span>');
+    document.getElementById('clubSubtitle').textContent = cfg.club.subtitle || 'Jugendtraining · Absagen';
+
+    const parts = cfg.nextTraining.displayStr.split(' ');
+    document.getElementById('nextTrainingDate').innerHTML =
+      `<em>${parts[0]}</em> ${parts.slice(1).join(' ')}`;
+
+    trainers = cfg.trainers;
+    await loadAbsagen();
+  } catch (e) {
+    showToast('⚠️ Fehler beim Laden');
+  }
+}
+
+async function loadAbsagen() {
+  try {
+    const res = await fetch('/api/absagen');
+    const data = await res.json();
+
+    // Stats
+    document.getElementById('statTotal').textContent = data.total;
+    const affected = trainers.filter(t => (data.byTrainer[t.id] || []).length > 0).length;
+    document.getElementById('statTrainers').textContent = affected;
+
+    if (data.all.length > 0) {
+      const latest = new Date(data.all[0].timestamp);
+      document.getElementById('statLast').textContent = latest.toLocaleTimeString('de-DE', {
+        hour: '2-digit', minute: '2-digit'
+      });
+    } else {
+      document.getElementById('statLast').textContent = '–';
+    }
+
+    // Render trainer sections
+    const container = document.getElementById('trainerSections');
+    container.innerHTML = trainers.map(trainer => {
+      const absagen = data.byTrainer[trainer.id] || [];
+      const initials = trainer.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+      const items = absagen.length > 0
+        ? absagen.map(a => {
+            const time = new Date(a.timestamp).toLocaleTimeString('de-DE', {
+              hour: '2-digit', minute: '2-digit'
+            });
+            return `
+              <div class="absage-item">
+                <div>
+                  <div class="absage-name">🧒 ${escHtml(a.kindName)}</div>
+                </div>
+                <div class="absage-time">eingetragen ${time} Uhr</div>
+              </div>`;
+          }).join('')
+        : `<div class="empty-state">Keine Absagen für dieses Training</div>`;
+
+      return `
+        <div class="trainer-section">
+          <div class="trainer-section-header">
+            <div class="trainer-section-avatar">${initials}</div>
+            <div class="trainer-section-name">${escHtml(trainer.name)}</div>
+            <div class="trainer-badge ${absagen.length === 0 ? 'zero' : ''}">${absagen.length}</div>
+          </div>
+          <div class="absagen-list">${items}</div>
+        </div>`;
+    }).join('');
+
+    // Reset info
+    const lastReset = new Date(data.lastReset);
+    document.getElementById('resetText').textContent =
+      `Zuletzt zurückgesetzt: ${lastReset.toLocaleDateString('de-DE', {
+        weekday: 'short', day: '2-digit', month: '2-digit'
+      })} um ${lastReset.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr`;
+
+  } catch (e) {
+    showToast('⚠️ Fehler beim Laden der Absagen');
+  }
+}
+
+async function manualReset() {
+  if (!confirm('Wirklich alle Absagen zurücksetzen?')) return;
+  try {
+    await fetch('/api/absagen', { method: 'DELETE' });
+    showToast('✅ Alle Absagen zurückgesetzt');
+    loadAbsagen();
+  } catch {
+    showToast('⚠️ Fehler beim Zurücksetzen');
+  }
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Auto-refresh every 30s
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  setInterval(loadAbsagen, 30000);
+});
+</script>
+</body>
+</html>
