@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 export interface Absage {
   id: string;
@@ -12,87 +12,93 @@ export interface Absage {
 
 interface StoreData {
   absagen: Absage[];
-  lastReset: string; // ISO string
+  lastReset: Date;
 }
 
-const DATA_FILE = path.join(__dirname, '..', 'data', 'absagen.json');
+const DATA_FILE = path.join(__dirname, "..", "data", "absagen.json");
 
-class AbsagenStore {
-  private absagen: Absage[] = [];
-  private lastReset: Date = new Date();
-
-  constructor() {
-    this.load();
-  }
-
-  private load(): void {
-    try {
-      if (fs.existsSync(DATA_FILE)) {
-        const raw: StoreData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+// --- persistence ---
+function read(): StoreData {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const raw = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+      return {
         // Dates are serialized as strings in JSON — restore them
-        this.absagen = (raw.absagen ?? []).map(a => ({
+        absagen: (raw.absagen ?? []).map((a: Absage) => ({
           ...a,
           timestamp: new Date(a.timestamp),
-        }));
-        this.lastReset = new Date(raw.lastReset ?? Date.now());
-        console.log(`[Store] Loaded ${this.absagen.length} absagen from ${DATA_FILE}`);
-      } else {
-        console.log(`[Store] No data file found, starting fresh`);
-      }
-    } catch (e) {
-      console.error('[Store] Failed to load data file, starting fresh:', e);
-    }
-  }
-
-  private save(): void {
-    try {
-      fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
-      const data: StoreData = {
-        absagen: this.absagen,
-        lastReset: this.lastReset.toISOString(),
+        })),
+        lastReset: new Date(raw.lastReset ?? Date.now()),
       };
-      fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
-    } catch (e) {
-      console.error('[Store] Failed to save data file:', e);
     }
+  } catch (e) {
+    console.error("[Store] Failed to read data file, returning empty:", e);
   }
+  return { absagen: [], lastReset: new Date() };
+}
 
-  add(absage: Omit<Absage, 'id' | 'timestamp'>): Absage {
-    const entry: Absage = {
-      ...absage,
-      id: Math.random().toString(36).slice(2, 9),
-      timestamp: new Date(),
-    };
-    this.absagen.push(entry);
-    this.save();
-    return entry;
-  }
-
-  getAll(): Absage[] {
-    return [...this.absagen].sort(
-      (a, b) => b.timestamp.getTime() - a.timestamp.getTime()
+function write(data: StoreData): void {
+  try {
+    fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
+    fs.writeFileSync(
+      DATA_FILE,
+      JSON.stringify(
+        { absagen: data.absagen, lastReset: data.lastReset.toISOString() },
+        null,
+        2,
+      ),
+      "utf-8",
     );
-  }
-
-  getByTrainer(trainerId: string): Absage[] {
-    return this.absagen.filter(a => a.trainerId === trainerId);
-  }
-
-  reset(): void {
-    console.log(`[Store] reset() called, had ${this.absagen.length} entries`);
-    this.absagen = [];
-    this.lastReset = new Date();
-    this.save();
-    console.log(`[Store] reset() done at ${this.lastReset.toISOString()}`);
-  }
-
-  getLastReset(): Date {
-    return this.lastReset;
-  }
-
-  count(): number {
-    return this.absagen.length;
+  } catch (e) {
+    console.error("[Store] Failed to write data file:", e);
   }
 }
 
-export const store = new AbsagenStore();
+// --- operations ---
+export function add(absage: Omit<Absage, "id" | "timestamp">): Absage {
+  const data = read(); // re-read so we don't clobber concurrent writes
+  const entry: Absage = {
+    ...absage,
+    id: Math.random().toString(36).slice(2, 9),
+    timestamp: new Date(),
+  };
+  data.absagen.push(entry);
+  write(data);
+  return entry;
+}
+
+export function getAll(): Absage[] {
+  return read().absagen.sort(
+    (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+  );
+}
+
+export function getByTrainer(trainerId: string): Absage[] {
+  return read().absagen.filter((a) => a.trainerId === trainerId);
+}
+
+export function reset(): void {
+  const { absagen } = read();
+  console.log(`[Store] reset() called, had ${absagen.length} entries`);
+  const lastReset = new Date();
+  write({ absagen: [], lastReset });
+  console.log(`[Store] reset() done at ${lastReset.toISOString()}`);
+}
+
+export function getLastReset(): Date {
+  return read().lastReset;
+}
+
+export function count(): number {
+  return read().absagen.length;
+}
+
+// optional: bundled object so existing `store.add(...)` call sites keep working
+export const store = {
+  add,
+  getAll,
+  getByTrainer,
+  reset,
+  getLastReset,
+  count,
+};

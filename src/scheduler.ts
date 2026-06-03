@@ -11,13 +11,14 @@ interface Session {
 
 export function setupScheduler(sessions: Session[]): void {
   // TEMP: fires 2 minutes from now to test
-  const now = new Date();
-  const testMinute = (now.getMinutes() + 2) % 60;
+  /*const now = new Date();
+  const testMinute = (now.getMinutes() + 1) % 60;
   const testHour = now.getHours() + (now.getMinutes() >= 58 ? 1 : 0);
   cron.schedule(`${testMinute} ${testHour} * * *`, () => {
     console.log("[Scheduler] ✅ TEST CRON FIRED — cron is working!");
+    store.reset();
   });
-  console.log(`[Scheduler] Test cron scheduled for ${testHour}:${testMinute}`);
+  console.log(`[Scheduler] Test cron scheduled for ${testHour}:${testMinute}`);*/
   for (const session of sessions) {
     const [resetHour, resetMinute] = session.resetTime.split(":").map(Number);
     const cronDay = session.resetDay === 0 ? 0 : session.resetDay; // node-cron: 0=So, 1=Mo...7=So
