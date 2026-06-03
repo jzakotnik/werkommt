@@ -6,6 +6,7 @@ dist/
 
 # Config with secrets – copy config.example.json to config.json and fill in your values
 config.json
+data/
 
 # Logs
 *.log
