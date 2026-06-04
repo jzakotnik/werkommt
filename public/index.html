@@ -1,333 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <title>Werkommt? – TT Training Absagen</title>
-  <meta name="description" content="Training-Absagen für den Tischtennis-Verein. Schnell und einfach den Trainer informieren wenn ein Kind nicht kommt.">
-  <meta name="theme-color" content="#f46b1b">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Werkommt? – TT Training Absagen</title>
+    <meta
+      name="description"
+      content="Training-Absagen für den Tischtennis-Verein. Schnell und einfach den Trainer informieren wenn ein Kind nicht kommt."
+    />
+    <meta name="theme-color" content="#f46b1b" />
 
-  <!-- Favicons -->
-  <link rel="icon" type="image/x-icon"        href="/favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16"  href="/icons/icon-16.png">
-  <link rel="icon" type="image/png" sizes="32x32"  href="/icons/icon-32.png">
-  <link rel="icon" type="image/png" sizes="96x96"  href="/icons/icon-96.png">
-  <link rel="icon" type="image/svg+xml"        href="/icons/icon.svg">
-  <link rel="apple-touch-icon"                 href="/icons/apple-touch-icon.png">
-  <link rel="manifest"                         href="/manifest.json">
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96.png" />
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
 
-  <!-- Open Graph (WhatsApp, Telegram, iMessage, LinkedIn…) -->
-  <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://werkommt.derjure.de/">
-  <meta property="og:title"       content="Werkommt? – TT Training Absagen">
-  <meta property="og:description" content="Schnell und einfach Absagen für das Jugendtraining eintragen – der Trainer wird per E-Mail benachrichtigt.">
-  <meta property="og:image"       content="https://werkommt.derjure.de/icons/og-preview.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale"     content="de_DE">
+    <!-- Open Graph (WhatsApp, Telegram, iMessage, LinkedIn…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://werkommt.derjure.de/" />
+    <meta property="og:title" content="Werkommt? – TT Training Absagen" />
+    <meta
+      property="og:description"
+      content="Schnell und einfach Absagen für das Jugendtraining eintragen – der Trainer wird per E-Mail benachrichtigt."
+    />
+    <meta
+      property="og:image"
+      content="https://werkommt.derjure.de/icons/og-preview.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="de_DE" />
 
-  <!-- Twitter/X Card -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Werkommt? – TT Training Absagen">
-  <meta name="twitter:description" content="Schnell und einfach Absagen für das Jugendtraining eintragen – der Trainer wird per E-Mail benachrichtigt.">
-  <meta name="twitter:image"       content="https://werkommt.derjure.de/icons/og-preview.png">
+    <!-- Twitter/X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Werkommt? – TT Training Absagen" />
+    <meta
+      name="twitter:description"
+      content="Schnell und einfach Absagen für das Jugendtraining eintragen – der Trainer wird per E-Mail benachrichtigt."
+    />
+    <meta
+      name="twitter:image"
+      content="https://werkommt.derjure.de/icons/og-preview.png"
+    />
 
-  <link rel="stylesheet" href="style.css">
-  <!-- QR code library (CDN, no build step) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body>
-<div class="page">
+    <link rel="stylesheet" href="style.css" />
+    <!-- QR code library (CDN, no build step) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header -->
+      <header class="site-header">
+        <div class="header-top">
+          <div class="ball-icon">🏓</div>
+          <div class="club-name" id="clubName">TT-<span>Verein</span></div>
+        </div>
+        <div class="club-subtitle" id="clubSubtitle">
+          Jugendtraining · Absagen
+        </div>
+      </header>
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="header-top">
-      <div class="ball-icon">🏓</div>
-      <div class="club-name" id="clubName">TT-<span>Verein</span></div>
+      <!-- Nav -->
+      <nav class="nav-tabs">
+        <span class="nav-tab active">✏️ Absage eintragen</span>
+        <a class="nav-tab" href="overview.html">📋 Übersicht</a>
+      </nav>
+
+      <!-- Next Training Banner -->
+      <div class="training-banner" id="trainingBanner">
+        <div class="icon">📅</div>
+        <div>
+          <div class="label">Nächstes Training</div>
+          <div class="date" id="nextTrainingDate">Lädt…</div>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="card" id="formCard">
+        <!-- Name -->
+        <div class="form-group">
+          <label class="form-label" for="kindName">👦 Name des Kindes</label>
+          <input
+            class="form-input"
+            type="text"
+            id="kindName"
+            placeholder="z. B. Max Mustermann"
+            autocomplete="name"
+            autocorrect="off"
+          />
+        </div>
+
+        <!-- Trainer -->
+        <div class="form-group">
+          <label class="form-label">🎽 Trainer benachrichtigen</label>
+          <div class="trainer-grid" id="trainerGrid">
+            <!-- populated by JS -->
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-submit" id="submitBtn" disabled>
+          <span>🏓</span>
+          <span>Absage eintragen</span>
+        </button>
+      </div>
+
+      <!-- Success Card (hidden initially) -->
+      <div class="success-card" id="successCard" style="display: none">
+        <div class="success-icon">✅</div>
+        <div class="success-title">Absage eingetragen!</div>
+        <div class="success-text" id="successText">
+          Der Trainer wurde per E-Mail benachrichtigt.
+        </div>
+        <button class="btn-secondary" id="newAbsageBtn">
+          Weitere Absage eintragen
+        </button>
+      </div>
+
+      <!-- Personal Link Section -->
+      <div class="link-section" id="linkSection" style="display: none">
+        <div class="link-section-header" id="linkSectionHeader">
+          <div class="link-section-title">
+            🔗 Meinen persönlichen Link speichern
+          </div>
+          <div class="link-section-chevron">▼</div>
+        </div>
+        <div class="link-section-body">
+          <p
+            style="
+              font-size: 0.85rem;
+              color: var(--text-dim);
+              margin-bottom: 12px;
+            "
+          >
+            Speichere diesen Link – beim nächsten Mal ist dein Name bereits
+            vorausgefüllt.
+          </p>
+          <div class="link-display">
+            <span class="link-url" id="personalLinkUrl">–</span>
+          </div>
+          <div class="link-actions">
+            <button class="btn-link-action" id="btnCopy">
+              📋 Link kopieren
+            </button>
+            <button class="btn-link-action" id="btnQR">📱 QR-Code</button>
+            <button class="btn-link-action" id="btnBookmark">
+              🔖 Lesezeichen-Tipp
+            </button>
+          </div>
+          <div class="qr-container" id="qrContainer">
+            <div id="qrCanvas"></div>
+            <div class="qr-label">Mit dem Handy abscannen & speichern</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="club-subtitle" id="clubSubtitle">Jugendtraining · Absagen</div>
-  </header>
+    <!-- .page -->
 
-  <!-- Nav -->
-  <nav class="nav-tabs">
-    <span class="nav-tab active">✏️ Absage eintragen</span>
-    <a  class="nav-tab" href="overview.html">📋 Übersicht</a>
-  </nav>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
 
-  <!-- Next Training Banner -->
-  <div class="training-banner" id="trainingBanner">
-    <div class="icon">📅</div>
-    <div>
-      <div class="label">Nächstes Training</div>
-      <div class="date" id="nextTrainingDate">Lädt…</div>
-    </div>
-  </div>
-
-  <!-- Form Card -->
-  <div class="card" id="formCard">
-
-    <!-- Name -->
-    <div class="form-group">
-      <label class="form-label" for="kindName">👦 Name des Kindes</label>
-      <input
-        class="form-input"
-        type="text"
-        id="kindName"
-        placeholder="z. B. Max Mustermann"
-        autocomplete="name"
-        autocorrect="off"
+    <!-- Footer -->
+    <footer class="site-footer">
+      Made with ♥ by
+      <a
+        href="https://github.com/jzakotnik/werkommt"
+        target="_blank"
+        rel="noopener"
+        >Jure</a
       >
-    </div>
+    </footer>
 
-    <!-- Trainer -->
-    <div class="form-group">
-      <label class="form-label">🎽 Trainer benachrichtigen</label>
-      <div class="trainer-grid" id="trainerGrid">
-        <!-- populated by JS -->
-      </div>
-    </div>
+    <script>
+      // ── State ──────────────────────────────────────────────────────────────────
+      let selectedTrainerId = null;
+      let trainers = [];
+      let nextTrainingStr = "";
+      let qrGenerated = false;
+      let apiToken = "";
 
-    <!-- Submit -->
-    <button class="btn-submit" id="submitBtn" disabled>
-      <span>🏓</span>
-      <span>Absage eintragen</span>
-    </button>
+      // ── Init ───────────────────────────────────────────────────────────────────
+      async function init() {
+        try {
+          const res = await fetch("/api/config");
+          const cfg = await res.json();
+          apiToken = cfg.apiToken;
 
-  </div>
+          // Club info
+          document.getElementById("clubName").innerHTML = cfg.club.name.replace(
+            /\s+(\S+)$/,
+            " <span>$1</span>",
+          );
+          document.getElementById("clubSubtitle").textContent =
+            cfg.club.subtitle || "Jugendtraining · Absagen";
 
-  <!-- Success Card (hidden initially) -->
-  <div class="success-card" id="successCard" style="display:none">
-    <div class="success-icon">✅</div>
-    <div class="success-title">Absage eingetragen!</div>
-    <div class="success-text" id="successText">Der Trainer wurde per E-Mail benachrichtigt.</div>
-    <button class="btn-secondary" id="newAbsageBtn">Weitere Absage eintragen</button>
-  </div>
+          // Next training
+          nextTrainingStr = cfg.nextTraining.displayStr;
+          const parts = nextTrainingStr.split(" ");
+          // Bold the weekday
+          document.getElementById("nextTrainingDate").innerHTML =
+            `<em>${parts[0]}</em> ${parts.slice(1).join(" ")}`;
 
-  <!-- Personal Link Section -->
-  <div class="link-section" id="linkSection" style="display:none">
-    <div class="link-section-header" id="linkSectionHeader">
-      <div class="link-section-title">🔗 Meinen persönlichen Link speichern</div>
-      <div class="link-section-chevron">▼</div>
-    </div>
-    <div class="link-section-body">
-      <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:12px;">
-        Speichere diesen Link – beim nächsten Mal ist dein Name bereits vorausgefüllt.
-      </p>
-      <div class="link-display">
-        <span class="link-url" id="personalLinkUrl">–</span>
-      </div>
-      <div class="link-actions">
-        <button class="btn-link-action" id="btnCopy">📋 Link kopieren</button>
-        <button class="btn-link-action" id="btnQR">📱 QR-Code</button>
-        <button class="btn-link-action" id="btnBookmark">🔖 Lesezeichen-Tipp</button>
-      </div>
-      <div class="qr-container" id="qrContainer">
-        <div id="qrCanvas"></div>
-        <div class="qr-label">Mit dem Handy abscannen & speichern</div>
-      </div>
-    </div>
-  </div>
+          // Trainers
+          trainers = cfg.trainers;
+          renderTrainers(trainers);
 
-</div><!-- .page -->
+          // Prefill name from query param
+          const params = new URLSearchParams(window.location.search);
+          const nameParam = params.get("name");
+          if (nameParam) {
+            document.getElementById("kindName").value =
+              decodeURIComponent(nameParam);
+            updateLinkSection(decodeURIComponent(nameParam), cfg.baseUrl);
+            updateSubmitState();
+          }
+        } catch (e) {
+          showToast("⚠️ Fehler beim Laden der Konfiguration");
+        }
+      }
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+      // ── Trainer Grid ───────────────────────────────────────────────────────────
+      function renderTrainers(list) {
+        const grid = document.getElementById("trainerGrid");
+        grid.innerHTML = list
+          .map((t) => {
+            const initials = t.name
+              .split(" ")
+              .map((w) => w[0])
+              .join("")
+              .slice(0, 2)
+              .toUpperCase();
+            return `
+            <div class="trainer-card" data-id="${t.id}" onclick="selectTrainer('${t.id}')">
+              <div class="trainer-avatar">${initials}</div>
+              <div class="trainer-name">${t.name}</div>
+            </div>`;
+          })
+          .join("");
+      }
 
-<!-- Footer -->
-<footer class="site-footer">
-  Made with ♥ by <a href="https://github.com/jzakotnik/werkommt" target="_blank" rel="noopener">Jure</a>
-</footer>
+      function selectTrainer(id) {
+        selectedTrainerId = id;
+        document.querySelectorAll(".trainer-card").forEach((el) => {
+          el.classList.toggle("selected", el.dataset.id === id);
+        });
+        updateSubmitState();
+      }
 
-<script>
-// ── State ──────────────────────────────────────────────────────────────────
-let selectedTrainerId = null;
-let trainers = [];
-let nextTrainingStr = '';
-let qrGenerated = false;
+      // ── Submit State ───────────────────────────────────────────────────────────
+      function updateSubmitState() {
+        const name = document.getElementById("kindName").value.trim();
+        document.getElementById("submitBtn").disabled =
+          !name || !selectedTrainerId;
+      }
 
-// ── Init ───────────────────────────────────────────────────────────────────
-async function init() {
-  try {
-    const res = await fetch('/api/config');
-    const cfg = await res.json();
+      document.addEventListener("DOMContentLoaded", () => {
+        init();
 
-    // Club info
-    document.getElementById('clubName').innerHTML =
-      cfg.club.name.replace(/\s+(\S+)$/, ' <span>$1</span>');
-    document.getElementById('clubSubtitle').textContent = cfg.club.subtitle || 'Jugendtraining · Absagen';
+        document.getElementById("kindName").addEventListener("input", (e) => {
+          updateSubmitState();
+          updateLinkSection(e.target.value, null);
+        });
 
-    // Next training
-    nextTrainingStr = cfg.nextTraining.displayStr;
-    const parts = nextTrainingStr.split(' ');
-    // Bold the weekday
-    document.getElementById('nextTrainingDate').innerHTML =
-      `<em>${parts[0]}</em> ${parts.slice(1).join(' ')}`;
+        document
+          .getElementById("submitBtn")
+          .addEventListener("click", submitAbsage);
+        document
+          .getElementById("newAbsageBtn")
+          .addEventListener("click", resetForm);
+        document
+          .getElementById("linkSectionHeader")
+          .addEventListener("click", toggleLinkSection);
+        document.getElementById("btnCopy").addEventListener("click", copyLink);
+        document.getElementById("btnQR").addEventListener("click", showQR);
+        document
+          .getElementById("btnBookmark")
+          .addEventListener("click", showBookmarkTip);
+      });
 
-    // Trainers
-    trainers = cfg.trainers;
-    renderTrainers(trainers);
+      // ── Submit ─────────────────────────────────────────────────────────────────
+      async function submitAbsage() {
+        const kindName = document.getElementById("kindName").value.trim();
+        if (!kindName || !selectedTrainerId) return;
 
-    // Prefill name from query param
-    const params = new URLSearchParams(window.location.search);
-    const nameParam = params.get('name');
-    if (nameParam) {
-      document.getElementById('kindName').value = decodeURIComponent(nameParam);
-      updateLinkSection(decodeURIComponent(nameParam), cfg.baseUrl);
-      updateSubmitState();
-    }
+        const btn = document.getElementById("submitBtn");
+        btn.disabled = true;
+        btn.innerHTML = "<span>⏳</span><span>Wird eingetragen…</span>";
 
-  } catch (e) {
-    showToast('⚠️ Fehler beim Laden der Konfiguration');
-  }
-}
+        try {
+          const res = await fetch("/api/absagen", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-token": apiToken,
+            },
 
-// ── Trainer Grid ───────────────────────────────────────────────────────────
-function renderTrainers(list) {
-  const grid = document.getElementById('trainerGrid');
-  grid.innerHTML = list.map(t => {
-    const initials = t.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-    return `
-      <div class="trainer-card" data-id="${t.id}" onclick="selectTrainer('${t.id}')">
-        <div class="trainer-avatar">${initials}</div>
-        <div class="trainer-name">${t.name}</div>
-      </div>`;
-  }).join('');
-}
+            body: JSON.stringify({ kindName, trainerId: selectedTrainerId }),
+          });
+          const data = await res.json();
 
-function selectTrainer(id) {
-  selectedTrainerId = id;
-  document.querySelectorAll('.trainer-card').forEach(el => {
-    el.classList.toggle('selected', el.dataset.id === id);
-  });
-  updateSubmitState();
-}
+          if (res.ok) {
+            const trainer = trainers.find((t) => t.id === selectedTrainerId);
+            document.getElementById("successText").textContent =
+              `${trainer?.name} wurde per E-Mail über die Absage von ${kindName} informiert.`;
+            document.getElementById("formCard").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
+          } else {
+            showToast("⚠️ " + (data.error || "Fehler beim Eintragen"));
+            btn.disabled = false;
+            btn.innerHTML = "<span>🏓</span><span>Absage eintragen</span>";
+          }
+        } catch {
+          showToast("⚠️ Netzwerkfehler – bitte erneut versuchen");
+          btn.disabled = false;
+          btn.innerHTML = "<span>🏓</span><span>Absage eintragen</span>";
+        }
+      }
 
-// ── Submit State ───────────────────────────────────────────────────────────
-function updateSubmitState() {
-  const name = document.getElementById('kindName').value.trim();
-  document.getElementById('submitBtn').disabled = !name || !selectedTrainerId;
-}
+      function resetForm() {
+        selectedTrainerId = null;
+        document
+          .querySelectorAll(".trainer-card")
+          .forEach((el) => el.classList.remove("selected"));
+        document.getElementById("formCard").style.display = "block";
+        document.getElementById("successCard").style.display = "none";
+        const btn = document.getElementById("submitBtn");
+        btn.innerHTML = "<span>🏓</span><span>Absage eintragen</span>";
+        updateSubmitState();
+      }
 
-document.addEventListener('DOMContentLoaded', () => {
-  init();
+      // ── Personal Link ──────────────────────────────────────────────────────────
+      function updateLinkSection(name, baseUrlOverride) {
+        const section = document.getElementById("linkSection");
+        if (!name || name.trim().length < 2) {
+          section.style.display = "none";
+          return;
+        }
+        section.style.display = "block";
+        const base =
+          baseUrlOverride || window.location.origin + window.location.pathname;
+        const url =
+          base.split("?")[0] + "?name=" + encodeURIComponent(name.trim());
+        document.getElementById("personalLinkUrl").textContent = url;
+        // update URL bar without reload
+        window.history.replaceState(
+          null,
+          "",
+          "?name=" + encodeURIComponent(name.trim()),
+        );
+      }
 
-  document.getElementById('kindName').addEventListener('input', (e) => {
-    updateSubmitState();
-    updateLinkSection(e.target.value, null);
-  });
+      function toggleLinkSection() {
+        document.getElementById("linkSection").classList.toggle("open");
+      }
 
-  document.getElementById('submitBtn').addEventListener('click', submitAbsage);
-  document.getElementById('newAbsageBtn').addEventListener('click', resetForm);
-  document.getElementById('linkSectionHeader').addEventListener('click', toggleLinkSection);
-  document.getElementById('btnCopy').addEventListener('click', copyLink);
-  document.getElementById('btnQR').addEventListener('click', showQR);
-  document.getElementById('btnBookmark').addEventListener('click', showBookmarkTip);
-});
+      function copyLink() {
+        const url = document.getElementById("personalLinkUrl").textContent;
+        navigator.clipboard
+          .writeText(url)
+          .then(() => showToast("✅ Link kopiert!"));
+      }
 
-// ── Submit ─────────────────────────────────────────────────────────────────
-async function submitAbsage() {
-  const kindName = document.getElementById('kindName').value.trim();
-  if (!kindName || !selectedTrainerId) return;
+      function showQR() {
+        const container = document.getElementById("qrContainer");
+        const canvas = document.getElementById("qrCanvas");
+        if (!qrGenerated) {
+          canvas.innerHTML = "";
+          const url = document.getElementById("personalLinkUrl").textContent;
+          new QRCode(canvas, {
+            text: url,
+            width: 180,
+            height: 180,
+            colorDark: "#f46b1b",
+            colorLight: "#0e0f12",
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+          qrGenerated = true;
+        }
+        container.style.display =
+          container.style.display === "none" ? "block" : "none";
+      }
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span>⏳</span><span>Wird eingetragen…</span>';
+      function showBookmarkTip() {
+        const url = document.getElementById("personalLinkUrl").textContent;
+        window.location.href = url;
+        setTimeout(() => {
+          showToast(
+            '💡 Tipp: Strg+D (Desktop) oder "Zum Home-Bildschirm" (Mobil)',
+          );
+        }, 300);
+      }
 
-  try {
-    const res = await fetch('/api/absagen', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kindName, trainerId: selectedTrainerId }),
-    });
-    const data = await res.json();
-
-    if (res.ok) {
-      const trainer = trainers.find(t => t.id === selectedTrainerId);
-      document.getElementById('successText').textContent =
-        `${trainer?.name} wurde per E-Mail über die Absage von ${kindName} informiert.`;
-      document.getElementById('formCard').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-    } else {
-      showToast('⚠️ ' + (data.error || 'Fehler beim Eintragen'));
-      btn.disabled = false;
-      btn.innerHTML = '<span>🏓</span><span>Absage eintragen</span>';
-    }
-  } catch {
-    showToast('⚠️ Netzwerkfehler – bitte erneut versuchen');
-    btn.disabled = false;
-    btn.innerHTML = '<span>🏓</span><span>Absage eintragen</span>';
-  }
-}
-
-function resetForm() {
-  selectedTrainerId = null;
-  document.querySelectorAll('.trainer-card').forEach(el => el.classList.remove('selected'));
-  document.getElementById('formCard').style.display = 'block';
-  document.getElementById('successCard').style.display = 'none';
-  const btn = document.getElementById('submitBtn');
-  btn.innerHTML = '<span>🏓</span><span>Absage eintragen</span>';
-  updateSubmitState();
-}
-
-// ── Personal Link ──────────────────────────────────────────────────────────
-function updateLinkSection(name, baseUrlOverride) {
-  const section = document.getElementById('linkSection');
-  if (!name || name.trim().length < 2) {
-    section.style.display = 'none';
-    return;
-  }
-  section.style.display = 'block';
-  const base = baseUrlOverride || (window.location.origin + window.location.pathname);
-  const url = base.split('?')[0] + '?name=' + encodeURIComponent(name.trim());
-  document.getElementById('personalLinkUrl').textContent = url;
-  // update URL bar without reload
-  window.history.replaceState(null, '', '?name=' + encodeURIComponent(name.trim()));
-}
-
-function toggleLinkSection() {
-  document.getElementById('linkSection').classList.toggle('open');
-}
-
-function copyLink() {
-  const url = document.getElementById('personalLinkUrl').textContent;
-  navigator.clipboard.writeText(url).then(() => showToast('✅ Link kopiert!'));
-}
-
-function showQR() {
-  const container = document.getElementById('qrContainer');
-  const canvas = document.getElementById('qrCanvas');
-  if (!qrGenerated) {
-    canvas.innerHTML = '';
-    const url = document.getElementById('personalLinkUrl').textContent;
-    new QRCode(canvas, {
-      text: url,
-      width: 180,
-      height: 180,
-      colorDark: '#f46b1b',
-      colorLight: '#0e0f12',
-      correctLevel: QRCode.CorrectLevel.M,
-    });
-    qrGenerated = true;
-  }
-  container.style.display = container.style.display === 'none' ? 'block' : 'none';
-}
-
-function showBookmarkTip() {
-  const url = document.getElementById('personalLinkUrl').textContent;
-  window.location.href = url;
-  setTimeout(() => {
-    showToast('💡 Tipp: Strg+D (Desktop) oder "Zum Home-Bildschirm" (Mobil)');
-  }, 300);
-}
-
-// ── Toast ──────────────────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-</script>
-</body>
+      // ── Toast ──────────────────────────────────────────────────────────────────
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+      }
+    </script>
+  </body>
 </html>

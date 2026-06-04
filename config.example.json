@@ -1,17 +1,38 @@
 {
+  "apiToken": "some-random-string-here",
   "club": {
     "name": "TT-Verein Musterstadt",
     "subtitle": "Jugendtraining Absagen"
   },
   "trainers": [
-    { "id": "mueller", "name": "Max Müller", "email": "max.mueller@example.com" },
-    { "id": "schmidt", "name": "Lisa Schmidt", "email": "lisa.schmidt@example.com" },
+    {
+      "id": "mueller",
+      "name": "Max Müller",
+      "email": "max.mueller@example.com"
+    },
+    {
+      "id": "schmidt",
+      "name": "Lisa Schmidt",
+      "email": "lisa.schmidt@example.com"
+    },
     { "id": "weber", "name": "Tom Weber", "email": "tom.weber@example.com" }
   ],
   "training": {
     "sessions": [
-      { "day": 3, "label": "Mittwoch", "time": "18:00", "resetDay": 3, "resetTime": "22:00" },
-      { "day": 5, "label": "Freitag",  "time": "18:00", "resetDay": 5, "resetTime": "22:00" }
+      {
+        "day": 3,
+        "label": "Mittwoch",
+        "time": "18:00",
+        "resetDay": 3,
+        "resetTime": "22:00"
+      },
+      {
+        "day": 5,
+        "label": "Freitag",
+        "time": "18:00",
+        "resetDay": 5,
+        "resetTime": "22:00"
+      }
     ]
   },
   "smtp": {

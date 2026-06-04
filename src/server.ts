@@ -29,6 +29,7 @@ app.get("/api/config", (_req: Request, res: Response) => {
       isoDate: next.date.toISOString(),
     },
     baseUrl: config.app.baseUrl,
+    apiToken: config.apiToken,
   });
 });
 
@@ -51,6 +52,13 @@ app.get("/api/absagen", (_req: Request, res: Response) => {
 
 // POST /api/absagen  – submit new absence
 app.post("/api/absagen", async (req: Request, res: Response) => {
+  const token = req.headers["x-api-token"];
+  console.log("Received token in POST", token);
+  if (token !== config.apiToken) {
+    console.log("Token missed", token);
+    res.status(403).json({ error: "Forbidden, token missing" });
+    return;
+  }
   const { kindName, trainerId } = req.body as {
     kindName: string;
     trainerId: string;
